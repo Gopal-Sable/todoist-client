@@ -1,5 +1,5 @@
 import { baseURL } from "./constants";
-import { Credentials } from "./types";
+import { Credentials, Project } from "./types";
 export const loginApi = async ({ email, password }: Credentials) => {
     try {
         const res = await fetch(`${baseURL}users/login`, {
@@ -35,6 +35,51 @@ export const getTasks = async (id: string | number) => {
     try {
         const res = await fetch(`${baseURL}tasks/project/${id}`, {
             method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+        });
+        return await res.json();
+    } catch (error) {
+        return error;
+    }
+};
+
+export const deleteProjectAPI = async (id: number) => {
+    try {
+        const res = await fetch(`${baseURL}projects/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+        });
+        return await res.json();
+    } catch (error) {
+        return error;
+    }
+};
+export const addProjectAPI = async (data: Project) => {
+    try {
+        const res = await fetch(`${baseURL}projects/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+            credentials: "include",
+        });
+        return await res.json();
+    } catch (error) {
+        return error;
+    }
+};
+
+export const deleteTaskAPI = async (id: number) => {
+    try {
+        const res = await fetch(`${baseURL}tasks/${id}`, {
+            method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },

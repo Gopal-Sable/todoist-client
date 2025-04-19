@@ -3,11 +3,12 @@ import Login from "./Components/Login";
 import Home from "./Pages/Home";
 import ProtectedRoute from "./utils/ProtectedRoutes";
 import ProjectPage from "./Pages/ProjectPage";
-
+import Modal from "./Components/Modal";
 const App = () => {
     return (
         <BrowserRouter>
             <nav>this is nav bar</nav>
+            <Modal />
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route

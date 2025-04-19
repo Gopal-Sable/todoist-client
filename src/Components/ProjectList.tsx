@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ApiResponse, Project } from "../utils/types";
 import AddProject from "./AddButton";
 import ProjectCard from "./ProjectCard";
@@ -8,26 +8,38 @@ import { setProjects } from "../store/projectSlice";
 import { RootState } from "../store/store";
 
 const ProjectList = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
     const dispatch = useDispatch();
     const projects = useSelector((state: RootState) => state.projects);
     const fetchData = async () => {
-        const data: ApiResponse<Project[], "projects"> = await getProjects();
-        dispatch(setProjects(data?.projects));
+        setIsLoading(true);
+        setIsError(false);
+        try {
+            const data: ApiResponse<Project[], "projects"> =
+                await getProjects();
+            dispatch(setProjects(data?.projects));
+        } catch (error) {
+            setIsError(true);
+        }
+        setIsLoading(false);
     };
     useEffect(() => {
         fetchData();
     }, []);
 
-    const handleClick = () => {
-        console.log("clicked");
-    };
+    isError && <h1>Something went wrong!!</h1>;
+
     return (
         <div className="flex flex-wrap">
-            <AddProject name="Project" handleClick={handleClick} />
-            {projects &&
+            <AddProject name="Project" />
+            {isLoading ? (
+                <span className="loading loading-spinner"></span>
+            ) : (
                 projects.map((project) => (
                     <ProjectCard key={project.id} {...project} />
-                ))}
+                ))
+            )}
         </div>
     );
 };

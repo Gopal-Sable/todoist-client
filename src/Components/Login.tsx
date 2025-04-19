@@ -9,8 +9,8 @@ const LoginForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [credentials, setCredentials] = useState<Credentials>({
-        email: "abc12@mail.com",
-        password: "abcd12",
+        email: "Gopal5@mail.com",
+        password: "Gopal5",
     });
     const { email, password } = credentials;
 

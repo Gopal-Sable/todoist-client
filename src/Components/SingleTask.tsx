@@ -1,7 +1,23 @@
+import { MdDelete } from "react-icons/md";
 import { TaskType } from "../utils/types";
+import { useDispatch } from "react-redux";
+import { deleteTaskAPI } from "../utils/apiCalls";
+import { deleteTask } from "../store/taskSlice";
+// import { useNavigate } from "react-router";
 
 const SingleTask = ({ id, content }: TaskType) => {
+    // const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    const handleDelete = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        try {
+            deleteTaskAPI(Number(id));
+            dispatch(deleteTask(Number(id)));
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <div
             id={String(id)}
@@ -10,7 +26,10 @@ const SingleTask = ({ id, content }: TaskType) => {
         >
             <div className="card-body">
                 <div className="card-actions justify-center items-center text-center">
-                    {content}
+                    {content + id}
+                    <span className="z-50" onClick={handleDelete}>
+                        <MdDelete className="text-3xl" />
+                    </span>
                 </div>
             </div>
         </div>

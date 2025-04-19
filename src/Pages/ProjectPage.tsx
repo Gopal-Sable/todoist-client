@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getTasks } from "../utils/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,28 +9,39 @@ import SingleTask from "../Components/SingleTask";
 import AddProject from "../Components/AddButton";
 
 const ProjectPage = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
     const { id } = useParams();
     const tasks = useSelector((store: RootState) => store.tasks);
     const dispatch = useDispatch();
     const fetchData = async () => {
-        if (id) {
-            const data: TaskType[] = await getTasks(id);
-            dispatch(setTasks(data));
+        setIsLoading(true);
+        setIsError(false);
+        try {
+            if (id) {
+                const data: TaskType[] = await getTasks(id);
+                dispatch(setTasks(data));
+            }
+        } catch (error) {
+            setIsError(true);
         }
+        setIsLoading(false);
     };
     useEffect(() => {
         fetchData();
     }, []);
 
-    const handleClick = () => {
-        console.log("Clicked");
-    };
+    isError && <h1>Something went wrong!!</h1>;
     return (
         <div className="flex flex-wrap mx-auto">
-            <AddProject name="Task" handleClick={handleClick} />
-            {tasks.map((task) => {
-                return <SingleTask key={task.id} {...task} />;
-            })}
+            <AddProject name="Task"/>
+            {isLoading ? (
+                <span className="loading loading-spinner"></span>
+            ) : (
+                tasks.map((task) => {
+                    return <SingleTask key={task.id} {...task} />;
+                })
+            )}
         </div>
     );
 };
