@@ -22,7 +22,7 @@ const LoginForm = () => {
         e.preventDefault();
         const data = await loginApi(credentials);
         localStorage.setItem("token", data.token);
-        setTimeout(() => localStorage.removeItem("token"), 60 * 60 * 1000);
+        // setTimeout(() => localStorage.removeItem("token"), 60 * 60 * 1000);
         dispatch(login(email));
         navigate("/home");
     };

@@ -1,23 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Project } from "../utils/types";
+import { TaskType } from "../utils/types";
 
-const initialState: Project[] = [];
+const initialState: TaskType[] = [];
+// { [key: number]: TaskType[] } = {};
 
-const projectSlice = createSlice({
-    name: "projects",
+const taskSlice = createSlice({
+    name: "tasks",
     initialState,
     reducers: {
-        setProjects: (_, action: PayloadAction<Project[]>) => {
+        setTasks: (_, action: PayloadAction<TaskType[]>) => {
             return action.payload;
         },
-        addProject: (state, action: PayloadAction<Project>) => {
+        addTask: (state, action: PayloadAction<TaskType>) => {
             state.unshift(action.payload);
         },
-        deleteProject: (state, action: PayloadAction<number>) => {
-            return state.filter((project) => project.id !== action.payload);
+        deleteTask: (state, action: PayloadAction<number>) => {
+            return state.filter((task) => task.id !== action.payload);
         },
 
-        updateProject: (state, action: PayloadAction<Project>) => {
+        updateTask: (state, action: PayloadAction<TaskType>) => {
             const index = state.findIndex((p) => p.id === action.payload.id);
             if (index !== -1) {
                 state[index] = action.payload;
@@ -26,6 +27,6 @@ const projectSlice = createSlice({
     },
 });
 
-export const { setProjects, addProject, deleteProject, updateProject } =
-    projectSlice.actions;
-export default projectSlice.reducer;
+export const { setTasks, addTask, deleteTask, updateTask } =
+    taskSlice.actions;
+export default taskSlice.reducer;

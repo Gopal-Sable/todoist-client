@@ -30,3 +30,18 @@ export const getProjects = async () => {
         return error;
     }
 };
+
+export const getTasks = async (id: string | number) => {
+    try {
+        const res = await fetch(`${baseURL}tasks/project/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+        });
+        return await res.json();
+    } catch (error) {
+        return error;
+    }
+};

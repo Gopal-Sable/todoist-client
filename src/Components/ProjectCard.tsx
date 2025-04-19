@@ -2,7 +2,7 @@ import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 import { Project } from "../utils/types";
 import { useNavigate } from "react-router";
 
-const ProjectCard = ({ id, name, is_favorite, color }: Project) => {
+const ProjectCard = ({ id, name, is_favorite }: Project) => {
     const navigate = useNavigate();
     return (
         <div

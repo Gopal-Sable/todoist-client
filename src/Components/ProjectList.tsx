@@ -1,6 +1,6 @@
-import { useEffect,useState } from "react";
-import {  ProjectApiData } from "../utils/types";
-import AddProject from "./AddProject";
+import { useEffect } from "react";
+import { ApiResponse, Project } from "../utils/types";
+import AddProject from "./AddButton";
 import ProjectCard from "./ProjectCard";
 import { getProjects } from "../utils/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,18 +11,19 @@ const ProjectList = () => {
     const dispatch = useDispatch();
     const projects = useSelector((state: RootState) => state.projects);
     const fetchData = async () => {
-        const data: ProjectApiData = await getProjects();
-        console.log(data);
-
+        const data: ApiResponse<Project[], "projects"> = await getProjects();
         dispatch(setProjects(data?.projects));
     };
     useEffect(() => {
         fetchData();
     }, []);
 
+    const handleClick = () => {
+        console.log("clicked");
+    };
     return (
         <div className="flex flex-wrap">
-            <AddProject />
+            <AddProject name="Project" handleClick={handleClick} />
             {projects &&
                 projects.map((project) => (
                     <ProjectCard key={project.id} {...project} />
