@@ -26,7 +26,7 @@ export interface apiMessage {
 export interface TaskType {
     id: number;
     content: string;
-    description: String;
+    description: string;
     due_date: string;
     is_completed: 0 | 1;
     created_at: string;

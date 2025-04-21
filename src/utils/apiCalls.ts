@@ -1,5 +1,5 @@
 import { baseURL } from "./constants";
-import { Credentials, Project } from "./types";
+import { Credentials, Project, TaskType } from "./types";
 export const loginApi = async ({ email, password }: Credentials) => {
     try {
         const res = await fetch(`${baseURL}users/login`, {
@@ -83,6 +83,52 @@ export const deleteTaskAPI = async (id: number) => {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
+        });
+        return await res.json();
+    } catch (error) {
+        return error;
+    }
+};
+export const addTaskAPI = async (data: TaskType) => {
+    try {
+        const res = await fetch(`${baseURL}tasks/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+            credentials: "include",
+        });
+        return await res.json();
+    } catch (error) {
+        return error;
+    }
+};
+export const updateTaskAPI = async (data: TaskType) => {
+    try {
+        const res = await fetch(`${baseURL}tasks/${data.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+            credentials: "include",
+        });
+        return await res.json();
+    } catch (error) {
+        return error;
+    }
+};
+
+export const updateProjectAPI = async (data: Project) => {
+    try {
+        const res = await fetch(`${baseURL}projects/${data.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
             credentials: "include",
         });
         return await res.json();

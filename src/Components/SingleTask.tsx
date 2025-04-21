@@ -3,16 +3,32 @@ import { TaskType } from "../utils/types";
 import { useDispatch } from "react-redux";
 import { deleteTaskAPI } from "../utils/apiCalls";
 import { deleteTask } from "../store/taskSlice";
-// import { useNavigate } from "react-router";
+import { setModalTask, toggleTaskModal } from "../store/appConfigSlice";
 
-const SingleTask = ({ id, content }: TaskType) => {
-    // const navigate = useNavigate();
+const SingleTask = ({
+    id,
+    content,
+    created_at,
+    description,
+    due_date,
+    is_completed,
+    project_id,
+}: TaskType) => {
+    const task: TaskType = {
+        id,
+        content,
+        created_at,
+        description,
+        due_date,
+        is_completed,
+        project_id,
+    };
     const dispatch = useDispatch();
 
     const handleDelete = async (e: React.MouseEvent) => {
         e.stopPropagation();
         try {
-            deleteTaskAPI(Number(id));
+            await deleteTaskAPI(Number(id));
             dispatch(deleteTask(Number(id)));
         } catch (error) {
             console.log(error);
@@ -21,6 +37,10 @@ const SingleTask = ({ id, content }: TaskType) => {
     return (
         <div
             id={String(id)}
+            onClick={() => {
+                dispatch(setModalTask(task));
+                dispatch(toggleTaskModal());
+            }}
             // style={{ backgroundColor: color }}
             className={`card card-border bg-accent opacity-90  m-3 w-96 cursor-pointer hover:opacity-95 active:opacity-100`}
         >

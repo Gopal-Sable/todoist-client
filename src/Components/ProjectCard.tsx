@@ -1,7 +1,7 @@
 import {
     MdDelete,
-    MdOutlineFavorite,
-    MdOutlineFavoriteBorder,
+    // MdOutlineFavorite,
+    // MdOutlineFavoriteBorder,
 } from "react-icons/md";
 import { Project } from "../utils/types";
 import { useNavigate } from "react-router";
@@ -9,8 +9,10 @@ import React from "react";
 import { deleteProject } from "../store/projectSlice";
 import { useDispatch } from "react-redux";
 import { deleteProjectAPI } from "../utils/apiCalls";
+import { setModalProject, toggleModal } from "../store/appConfigSlice";
 
-const ProjectCard = ({ id, name, is_favorite }: Project) => {
+const ProjectCard = ({ id, name, is_favorite, color, user_id }: Project) => {
+    const project = { id, name, is_favorite, color, user_id };
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleDelete = async (e: React.MouseEvent) => {
@@ -34,20 +36,14 @@ const ProjectCard = ({ id, name, is_favorite }: Project) => {
             }}
         >
             <div className="card-body">
-                <div className="card-actions justify-center items-center text-center">
-                    <span>
-                        {is_favorite ? (
-                            <MdOutlineFavorite
-                                // color="red"
-                                className="text-3xl text-red-600"
-                            />
-                        ) : (
-                            <MdOutlineFavoriteBorder
-                                color="red"
-                                className="text-3xl"
-                            />
-                        )}
-                    </span>
+                <div
+                    className="card-actions justify-center items-center text-center"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        dispatch(setModalProject(project));
+                        dispatch(toggleModal());
+                    }}
+                >
                     {name}
                     <span className="z-50" onClick={handleDelete}>
                         <MdDelete className="text-3xl" />

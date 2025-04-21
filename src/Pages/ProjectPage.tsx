@@ -7,6 +7,7 @@ import { TaskType } from "../utils/types";
 import { RootState } from "../store/store";
 import SingleTask from "../Components/SingleTask";
 import AddProject from "../Components/AddButton";
+import TaskModal from "../Components/TaskModal";
 
 const ProjectPage = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +35,9 @@ const ProjectPage = () => {
     isError && <h1>Something went wrong!!</h1>;
     return (
         <div className="flex flex-wrap mx-auto">
-            <AddProject name="Task"/>
+            <TaskModal />
+
+            <AddProject name="Task" />
             {isLoading ? (
                 <span className="loading loading-spinner"></span>
             ) : (
