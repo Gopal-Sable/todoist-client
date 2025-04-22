@@ -6,7 +6,7 @@ import ProjectPage from "./Pages/ProjectPage";
 const App = () => {
     return (
         <BrowserRouter>
-            <nav>this is nav bar</nav>
+            {/* <nav>this is nav bar</nav> */}
          
             <Routes>
                 <Route path="/login" element={<Login />} />

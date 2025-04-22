@@ -31,7 +31,7 @@ const ProjectList = () => {
     isError && <h1>Something went wrong!!</h1>;
 
     return (
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap h-screen overflow-y-scroll">
             <AddProject name="Project" />
             {isLoading ? (
                 <span className="loading loading-spinner"></span>

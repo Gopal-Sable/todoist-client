@@ -18,15 +18,19 @@ const taskSlice = createSlice({
             return state.filter((task) => task.id !== action.payload);
         },
 
-        updateTask: (state, action: PayloadAction<TaskType>) => {
+        updateTask: (state, action: PayloadAction<Partial<TaskType>>) => {
             const index = state.findIndex((p) => p.id === action.payload.id);
             if (index !== -1) {
-                state[index] = action.payload;
+                console.log(action.payload);
+
+                state[index].is_completed =
+                    action.payload?.is_completed === undefined
+                        ? state[index].is_completed
+                        : action.payload?.is_completed;
             }
         },
     },
 });
 
-export const { setTasks, addTask, deleteTask, updateTask } =
-    taskSlice.actions;
+export const { setTasks, addTask, deleteTask, updateTask } = taskSlice.actions;
 export default taskSlice.reducer;

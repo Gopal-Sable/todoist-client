@@ -12,7 +12,6 @@ const TaskModal: React.FC = () => {
     const task = useSelector(
         (store: RootState) => store.appConfig.taskModalData
     );
-    console.log(task);
 
     const [formData, setFormData] = useState<TaskType>(task);
 
@@ -27,7 +26,7 @@ const TaskModal: React.FC = () => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: name === "is_completed" ? Number(value) : value,
+            [name]: value,
         }));
     };
     useEffect(() => {
@@ -40,10 +39,10 @@ const TaskModal: React.FC = () => {
         e.preventDefault();
         try {
             if (formData.id && formData.id > 0) {
-                await updateTaskAPI(formData as TaskType);
+                await updateTaskAPI(formData );
                 dispatch(updateTask(formData));
             } else {
-                const data = await addTaskAPI(formData as TaskType);
+                const data = await addTaskAPI(formData);             
                 dispatch(addTask(data));
             }
             dispatch(toggleTaskModal());
@@ -97,20 +96,6 @@ const TaskModal: React.FC = () => {
                                 onChange={handleChange}
                             />
                         </div>
-
-                        <div className="form-control">
-                            <label className="label">Completed</label>
-                            <select
-                                name="is_completed"
-                                className="select select-bordered"
-                                value={formData.is_completed}
-                                onChange={handleChange}
-                            >
-                                <option value={0}>No</option>
-                                <option value={1}>Yes</option>
-                            </select>
-                        </div>
-
                         <div className="modal-action">
                             <button type="submit" className="btn btn-primary">
                                 Save

@@ -1,11 +1,17 @@
 import Modal from "../Components/Modal";
-import ProjectList from "../Components/ProjectList";
+// import ProjectList from "../Components/ProjectList";
+import ProjectsPage from "../Components/ProjectsPage";
+import SideBar from "../Components/SideBar";
+// import TaskList from "../Components/TaskList";
 
 const Home = () => {
     return (
-        <div className="flex">
+        <div className="flex w-screen">
             <Modal />
-            <ProjectList />
+            <div className="flex w-full">
+                <SideBar />
+                <ProjectsPage />
+            </div>
         </div>
     );
 };

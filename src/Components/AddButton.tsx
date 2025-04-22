@@ -1,4 +1,3 @@
-import { IoAdd } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import {
     resetModalProject,
@@ -6,6 +5,7 @@ import {
     toggleModal,
     toggleTaskModal,
 } from "../store/appConfigSlice";
+import { MdAdd } from "react-icons/md";
 
 type props = {
     name: string;
@@ -23,19 +23,11 @@ const AddButton = ({ name }: props) => {
     };
     return (
         <button
-            className="card card-border bg-gray-600  m-3 w-96 cursor-pointer hover:bg-gray-700 active:bg-gray-600"
             onClick={handleClick}
+            className="btn btn-sm btn-ghost text-white hover:bg-zinc-800"
         >
-            <div className="card-body">
-                <div className="card-actions justify-center items-center text-center">
-                    {false ? (
-                        <span className="loading loading-spinner"></span>
-                    ) : (
-                        <IoAdd />
-                    )}
-                    ADD {name}
-                </div>
-            </div>
+            <MdAdd className="text-lg" />
+            <span className="text-red-500">{name === "Task" ? "Add Task" : ""}</span>
         </button>
     );
 };

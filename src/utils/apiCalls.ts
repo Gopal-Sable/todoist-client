@@ -90,7 +90,7 @@ export const deleteTaskAPI = async (id: number) => {
         return error;
     }
 };
-export const addTaskAPI = async (data: TaskType) => {
+export const addTaskAPI = async (data: Partial<TaskType>) => {
     try {
         const res = await fetch(`${baseURL}tasks/`, {
             method: "POST",
@@ -105,7 +105,7 @@ export const addTaskAPI = async (data: TaskType) => {
         return error;
     }
 };
-export const updateTaskAPI = async (data: TaskType) => {
+export const updateTaskAPI = async (data: Partial<TaskType>) => {
     try {
         const res = await fetch(`${baseURL}tasks/${data.id}`, {
             method: "PATCH",
