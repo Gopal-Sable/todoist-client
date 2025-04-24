@@ -4,9 +4,12 @@ import { TaskType } from "../utils/types";
 import { deleteTask, updateTask } from "../store/taskSlice";
 import { useState } from "react";
 import TaskForm from "./TaskForm";
+import TaskModal from "./TaskModal";
 
 const TaskItem = ({ task }: { task: TaskType }) => {
     const dispatch = useDispatch();
+
+    const [open, setOpen] = useState(false);
 
     const [showAddForm, setShowAddForm] = useState(false);
     const handleChange = async (id: number, completed: 0 | 1) => {
@@ -56,6 +59,10 @@ const TaskItem = ({ task }: { task: TaskType }) => {
                     <label htmlFor="" onClick={(e) => handleDelete(e)}>
                         delete
                     </label>
+                    <button onClick={() => setOpen(true)} className="btn">
+                        Open Task Modal
+                    </button>
+                    <TaskModal isOpen={open} task={task} onClose={() => setOpen(false)} />
                 </div>
                 {task.description && (
                     <p className="text-sm text-gray-400 ml-6">

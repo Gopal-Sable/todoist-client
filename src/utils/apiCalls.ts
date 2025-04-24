@@ -1,5 +1,5 @@
 import { baseURL } from "./constants";
-import { Credentials, Project, TaskType } from "./types";
+import { Comment, Credentials, Project, TaskType } from "./types";
 export const loginApi = async ({ email, password }: Credentials) => {
     try {
         const res = await fetch(`${baseURL}users/login`, {
@@ -129,6 +129,66 @@ export const updateProjectAPI = async (data: Project) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
+            credentials: "include",
+        });
+        return await res.json();
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getComments = async (id: string | number) => {
+    try {
+        const res = await fetch(`${baseURL}comment/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+        });
+        return await res.json();
+    } catch (error) {
+        return error;
+    }
+};
+export const sendCommentAPI = async (data: Comment) => {
+    try {
+        const res = await fetch(`${baseURL}comment/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+            credentials: "include",
+        });
+        return await res.json();
+    } catch (error) {
+        return error;
+    }
+};
+export const deleteCommentAPI = async (id: number) => {
+    try {
+        const res = await fetch(`${baseURL}comment/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+        });
+        return await res.json();
+    } catch (error) {
+        return error;
+    }
+};
+
+export const updateCommentAPI = async (id: number, content: string) => {
+    try {
+        const res = await fetch(`${baseURL}comment/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({content}),
             credentials: "include",
         });
         return await res.json();

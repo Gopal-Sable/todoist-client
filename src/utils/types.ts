@@ -32,3 +32,10 @@ export interface TaskType {
     created_at: string;
     project_id: number;
 }
+
+export interface Comment {
+    content: string;
+    task_id: number;
+    id?: number | null;
+    posted_at?: string;
+}

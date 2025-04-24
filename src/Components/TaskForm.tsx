@@ -73,7 +73,7 @@ const TaskForm = ({ handleClose, task }: Props) => {
                 onChange={(e) => setTaskDescription(e.target.value)}
             />
 
-            <div className="flex items-center gap-3 text-sm text-white mt-3 mb-2">
+            {/* <div className="flex items-center gap-3 text-sm text-white mt-3 mb-2">
                 <button className="hover:bg-gray-700 px-2 py-1 rounded-md flex items-center gap-1">
                     <MdOutlineDateRange /> Date
                 </button>
@@ -86,7 +86,7 @@ const TaskForm = ({ handleClose, task }: Props) => {
                 <button className="hover:bg-gray-700 px-2 py-1 rounded-md flex items-center gap-1">
                     <FiMoreHorizontal />
                 </button>
-            </div>
+            </div> */}
 
             <div className="flex justify-end items-center">
                 <div className="flex gap-2">
