@@ -18,15 +18,14 @@ const taskSlice = createSlice({
             return state.filter((task) => task.id !== action.payload);
         },
 
-        updateTask: (state, action: PayloadAction<Partial<TaskType>>) => {
-            const index = state.findIndex((p) => p.id === action.payload.id);
-            if (index !== -1) {
-                console.log(action.payload);
-
-                state[index].is_completed =
-                    action.payload?.is_completed === undefined
-                        ? state[index].is_completed
-                        : action.payload?.is_completed;
+        updateTask: (
+            state,
+            action: PayloadAction<Partial<TaskType> & { id: number }>
+        ) => {
+            const { id, ...changes } = action.payload;
+            const task = state.find((t) => t.id === id);
+            if (task) {
+                Object.assign(task, changes);
             }
         },
     },

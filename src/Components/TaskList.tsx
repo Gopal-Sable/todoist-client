@@ -36,7 +36,7 @@ const TaskList: React.FC<{ projectTitle: string }> = ({ projectTitle }) => {
     }, [id]);
 
     return (
-        <div className="p-6 text-white w-full">
+        <div className="p-6 text-white w-full ">
             <h2 className="text-xl font-bold mb-4">{projectTitle}</h2>
             {isError && (
                 <h1 className="text-red-500">Something went wrong!!</h1>

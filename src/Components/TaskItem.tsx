@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import { updateTaskAPI } from "../utils/apiCalls";
+import { deleteTaskAPI, updateTaskAPI } from "../utils/apiCalls";
 import { TaskType } from "../utils/types";
-import { updateTask } from "../store/taskSlice";
+import { deleteTask, updateTask } from "../store/taskSlice";
 import { useState } from "react";
 import TaskForm from "./TaskForm";
 
@@ -14,11 +14,20 @@ const TaskItem = ({ task }: { task: TaskType }) => {
         await updateTaskAPI({ id, is_completed });
         dispatch(updateTask({ id, is_completed }));
     };
+    const handleDelete = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        try {
+            await deleteTaskAPI(Number(task.id));
+            dispatch(deleteTask(Number(task.id)));
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <>
             <li
                 key={task.id}
-                className="flex flex-col gap-1 hover:bg-gray-800 px-4 py-2 rounded-md transition-colors"
+                className="flex flex-col gap-1 border-b max-w-xl px-4 py-2  transition-colors"
             >
                 <div className="flex items-center gap-2">
                     <input
@@ -42,7 +51,10 @@ const TaskItem = ({ task }: { task: TaskType }) => {
                         htmlFor=""
                         onClick={() => setShowAddForm((pre) => !pre)}
                     >
-                        open
+                        Edit
+                    </label>
+                    <label htmlFor="" onClick={(e) => handleDelete(e)}>
+                        delete
                     </label>
                 </div>
                 {task.description && (
@@ -52,7 +64,10 @@ const TaskItem = ({ task }: { task: TaskType }) => {
                 )}
             </li>
             {showAddForm && (
-                <TaskForm handleClose={() => setShowAddForm(false)} />
+                <TaskForm
+                    handleClose={() => setShowAddForm(false)}
+                    task={task}
+                />
             )}
         </>
     );

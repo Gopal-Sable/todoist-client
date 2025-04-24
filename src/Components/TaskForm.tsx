@@ -5,17 +5,20 @@ import {
     MdNotificationsNone,
 } from "react-icons/md";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { addTaskAPI } from "../utils/apiCalls";
+import { addTaskAPI, updateTaskAPI } from "../utils/apiCalls";
 import { useParams } from "react-router";
-import { addTask } from "../store/taskSlice";
+import { addTask, updateTask } from "../store/taskSlice";
 import { TaskType } from "../utils/types";
 import { useDispatch } from "react-redux";
-type props = {
+type Props = {
     handleClose: () => void;
+    task?: TaskType;
 };
-const TaskForm = ({ handleClose }: props) => {
-    const [taskName, setTaskName] = useState("");
-    const [taskDescription, setTaskDescription] = useState("");
+const TaskForm = ({ handleClose, task }: Props) => {
+    const [taskName, setTaskName] = useState(task?.content ?? "");
+    const [taskDescription, setTaskDescription] = useState(
+        task?.description ?? ""
+    );
     const { id } = useParams();
     const dispatch = useDispatch();
 
@@ -23,6 +26,36 @@ const TaskForm = ({ handleClose }: props) => {
         setTaskName("");
         setTaskDescription("");
         handleClose();
+    };
+
+    const handleSubmit = async () => {
+        if (task?.id) {
+            await updateTaskAPI({
+                id: task.id,
+                content: taskName,
+                description: taskDescription,
+                project_id: Number(id),
+                due_date: "2025-12-25",
+            });
+            dispatch(
+                updateTask({
+                    id: Number(task.id),
+                    content: taskName,
+                    description: taskDescription,
+                    project_id: Number(id),
+                    due_date: "2025-12-25",
+                })
+            );
+        } else {
+            const data = await addTaskAPI({
+                content: taskName,
+                description: taskDescription,
+                project_id: Number(id),
+                due_date: "2025-12-25",
+            });
+            dispatch(addTask(data as TaskType));
+        }
+        handleCancel();
     };
     return (
         <div className="bg-[#1e1e1e] border border-gray-600 p-4 mt-4 rounded-md w-full max-w-xl">
@@ -55,8 +88,7 @@ const TaskForm = ({ handleClose }: props) => {
                 </button>
             </div>
 
-            <div className="flex justify-between items-center">
-                <span className="text-sm text-blue-400"># Education</span>
+            <div className="flex justify-end items-center">
                 <div className="flex gap-2">
                     <button
                         className="bg-gray-700 hover:bg-gray-600 px-4 py-1 rounded text-sm"
@@ -66,21 +98,9 @@ const TaskForm = ({ handleClose }: props) => {
                     </button>
                     <button
                         className="bg-red-700 hover:bg-red-600 px-4 py-1 rounded text-sm text-white"
-                        onClick={async () => {
-                            // You can call createTask API here
-                            const data = await addTaskAPI({
-                                content: taskName,
-                                description: taskDescription,
-                                project_id: Number(id),
-                                due_date: "2025-12-25",
-                            });
-                            console.log(data);
-
-                            dispatch(addTask(data as TaskType));
-                            // handleCancel(); // reset after submission
-                        }}
+                        onClick={handleSubmit}
                     >
-                        Add task
+                        {task?.id ? "Update Task" : "Add Task"}
                     </button>
                 </div>
             </div>
